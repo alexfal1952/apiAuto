@@ -1,2 +1,5 @@
 php artisan make:model -mc test --resource
 //creas todo de una 
+
+//subir a la gitHub
+git push -u origin master
