@@ -1,0 +1,2 @@
+php artisan make:model -mc test --resource
+//creas todo de una 
