@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MarcaResource;
 use App\marca;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,7 @@ class MarcaController extends Controller
      */
     public function index()
     {       
-         return marca::all();
-        //
+         return MarcaResource::collection( marca::all());
     }
 
     /**
@@ -36,10 +36,13 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'marca' => 'required|string'
+        ]);
         $marca = new marca();
-        $marca->marca = $request->marca;
-        $marca->save();
-        return $marca;
+        $marca -> marca = $request->marca;
+        $marca -> save();
+        return new MarcaResource($marca);
     }
 
     /**
@@ -48,8 +51,10 @@ class MarcaController extends Controller
      * @param  \App\marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function show(marca $marca)
+    public function show($id)
     {
+        $marca = marca::find($id);
+        return new MarcaResource($marca);
     }
 
     /**
@@ -70,9 +75,15 @@ class MarcaController extends Controller
      * @param  \App\marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, marca $marca)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'marca' => 'required|string'
+        ]);
+        $marca = marca::find($id);
+        $marca ->marca = $request->marca;
+        $marca->save();
+        return new MarcaResource($marca);
     }
 
     /**
@@ -81,9 +92,10 @@ class MarcaController extends Controller
      * @param  \App\marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function destroy($marca)
+    public function destroy($id)
     {
-        $marca = marca::find($marca);
-        $marca -> delete();
+        $marca = marca::find($id);
+        $marca->delete();
+        return new MarcaResource($marca);
     }
 }
