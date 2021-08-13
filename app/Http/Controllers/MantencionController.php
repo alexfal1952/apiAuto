@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GuardarMarcaRequest;
+use App\Http\Resources\MantecionResour;
 use App\Http\Resources\MarcaResource;
-use App\marca;
+use App\Mantencion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class MarcaController extends Controller
+
+class MantencionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class MarcaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {       
-         return MarcaResource::collection( marca::all());
+    {
+        return MantecionResour::collection(Mantencion::all());
     }
 
     /**
@@ -37,40 +38,40 @@ class MarcaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-   // public function store(GuardarMarcaRequest $request)
     {
-        
         $validator = validator::make(request()->input(), [
-            'marca' => 'required|unique:marcas'
+            'descripcion' => 'required|unique:mantencions',
+            'kilometraje' => 'numeric'
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-        $marca = new marca();
-        $marca -> marca = $request->marca;
-        $marca -> save();
-        return new MarcaResource($marca);
+        $mantencion = new Mantencion();
+        $mantencion->descripcion = $request->descripcion;
+        $mantencion->kilometraje = $request->kilometraje;
+        $mantencion->save();
+        return new MantecionResour($mantencion);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\marca  $marca
+     * @param  \App\Mantencion  $mantencion
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $marca = marca::find($id);
-        return new MarcaResource($marca);
+        $mantencion = Mantencion::find($id);
+        return new MantecionResour($mantencion);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\marca  $marca
+     * @param  \App\Mantencion  $mantencion
      * @return \Illuminate\Http\Response
      */
-    public function edit(marca $marca)
+    public function edit(Mantencion $mantencion)
     {
         //
     }
@@ -79,30 +80,32 @@ class MarcaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\marca  $marca
+     * @param  \App\Mantencion  $mantencion
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,$id)
     {
-        $request->validate([
-            'marca' => 'required|string'
+        $validator = validator::make(request()->input(), [
+            'kilometraje' => 'numeric'
         ]);
-        $marca = marca::find($id);
-        $marca ->marca = $request->marca;
-        $marca->save();
-        return new MarcaResource($marca);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+        $mantencion = Mantencion::find($id);
+        ($mantencion->descripcion ==  $request->descripcion) ? : $mantencion->descripcion = $request->descripcion;
+        $mantencion->kilometraje = $request->kilometraje;
+        $mantencion->save();
+        return new MarcaResource($mantencion);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\marca  $marca
+     * @param  \App\Mantencion  $mantencion
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Mantencion $mantencion)
     {
-        $marca = marca::find($id);
-        $marca->delete();
-        return new MarcaResource($marca);
+        //
     }
 }

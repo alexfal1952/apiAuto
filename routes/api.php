@@ -24,3 +24,4 @@ Route::get('/logout', 'Api\UserController@logout');
 Route::apiResource('nota', 'Api\NotaController')->middleware('auth:api');
 Route::apiResource('periodo', 'Api\PeriodoController');
 Route::apiResource('marca', 'MarcaController')->middleware('auth:api');
+Route::apiResource('Mantencion', 'MantencionController')->middleware('auth:api');
