@@ -16,12 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/prueba','Api\UserController@poto');
-
 Route::post('/register', 'Api\UserController@register');
 Route::post('/login', 'Api\UserController@login');
 Route::get('/logout', 'Api\UserController@logout');
-Route::apiResource('nota', 'Api\NotaController')->middleware('auth:api');
-Route::apiResource('periodo', 'Api\PeriodoController');
-Route::apiResource('marca', 'MarcaController')->middleware('auth:api');
+Route::apiResource('marca', 'MarcaController');
 Route::apiResource('Mantencion', 'MantencionController')->middleware('auth:api');
+Route::apiResource('Modelo', 'ModeloController');

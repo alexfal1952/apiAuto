@@ -5,7 +5,9 @@ php artisan make:model -mc test --resource
 git push -u origin master
 
 //creaccion re resour
- php artisan make:resource MarcaResource
+php artisan make:resource MarcaResource
 
- //crea los request
-  php artisan make:request GuardarMarcaReqquest
+//crea los request
+php artisan make:request GuardarMarcaReqquest
+
+php artisan passport:install

@@ -86,6 +86,7 @@ class MantencionController extends Controller
     public function update(Request $request,$id)
     {
         $validator = validator::make(request()->input(), [
+            'descripcion' => 'required',
             'kilometraje' => 'numeric'
         ]);
         if ($validator->fails()) {
@@ -104,8 +105,10 @@ class MantencionController extends Controller
      * @param  \App\Mantencion  $mantencion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mantencion $mantencion)
+    public function destroy($id)
     {
-        //
+        $mantencion = Mantencion::find($id);
+        $mantencion->delete();
+        return new MarcaResource($mantencion);
     }
 }

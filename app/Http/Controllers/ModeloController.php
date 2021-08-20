@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Prueba;
+use App\Modelo;
 use Illuminate\Http\Request;
 
-class PruebaController extends Controller
+class ModeloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PruebaController extends Controller
      */
     public function index()
     {
-        //
+        return Modelo::table('modelos')->join('marcas', 'modelos.marca_id', '=', 'marcas.id')->select('modelos.*', 'marcas.*')->get();
     }
 
     /**
@@ -35,16 +35,21 @@ class PruebaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Modelo = new Modelo();
+        $Modelo -> descripcion = $request->descripcion;
+        $Modelo -> marca_id = $request->marca ;
+        $Modelo -> save();
+        return $Modelo;
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Prueba  $prueba
+     * @param  \App\Modelo  $modelo
      * @return \Illuminate\Http\Response
      */
-    public function show(Prueba $prueba)
+    public function show(Modelo $modelo)
     {
         //
     }
@@ -52,10 +57,10 @@ class PruebaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Prueba  $prueba
+     * @param  \App\Modelo  $modelo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prueba $prueba)
+    public function edit(Modelo $modelo)
     {
         //
     }
@@ -64,10 +69,10 @@ class PruebaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Prueba  $prueba
+     * @param  \App\Modelo  $modelo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prueba $prueba)
+    public function update(Request $request, Modelo $modelo)
     {
         //
     }
@@ -75,10 +80,10 @@ class PruebaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Prueba  $prueba
+     * @param  \App\Modelo  $modelo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prueba $prueba)
+    public function destroy(Modelo $modelo)
     {
         //
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePruebasTable extends Migration
+class CreateModelosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreatePruebasTable extends Migration
      */
     public function up()
     {
-        Schema::create('pruebas', function (Blueprint $table) {
+        Schema::create('modelos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('descripcion');
+            $table->bigInteger('marca_id')->unsigned();
+            $table->foreign('marca_id')->references('id')->on('marcas');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreatePruebasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pruebas');
+        Schema::dropIfExists('modelos');
     }
 }

@@ -8,6 +8,7 @@ use App\marca;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class MarcaController extends Controller
 {
     /**
@@ -84,9 +85,13 @@ class MarcaController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $request->validate([
-            'marca' => 'required|string'
+        $validator = validator::make(request()->input(), [
+            'marca' => 'required'
         ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
         $marca = marca::find($id);
         $marca ->marca = $request->marca;
         $marca->save();
