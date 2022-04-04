@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\TipoNoticia;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GuardarMarcaRequest extends FormRequest
-{
 
+class CrearRequest extends FormRequest
+{
     public function authorize()
     {
+        /* return auth()->check(); */
         return true;
     }
 
     public function rules()
     {
         return [
-            "marca" =>  'required'
+            'tipo' => 'required'
         ];
     }
 }

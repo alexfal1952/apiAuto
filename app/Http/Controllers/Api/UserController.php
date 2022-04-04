@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
 use App\User;
+use Illuminate\Http\Request;
+use App\Exceptions\loginException ;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller{
-     public function poto(){
+    public function usuarioNoPermitido(){
+        throw new loginException('NO ESTAS REGISTRADO');
+    }
+    public function prueba(){
     	 return response()->json(['saludo' => 'hola']);
     }
     public function register(){
@@ -38,17 +41,16 @@ class UserController extends Controller{
         return response()->json('Logged out successfully', 200);
     }
 
-    public function login(){
-        if (auth()->attempt(request()->input())) {
-            $user = auth()->user();
-            $success['token'] = $user
-                ->createToken('Passport Api')
-                ->accessToken;
-            return response()->json($success, 200);
-
-        } else {
-            // return response()->json(['estado' => 'No esta']);
-            return response()->json(['error' => 'Unauthorized'], 401);
+    public function login(Request $request)
+    {
+        $loginData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+        if (!auth()->attempt($loginData)) {
+            return response(['message' => 'Invalid Credentials']);
         }
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
     }
 }
